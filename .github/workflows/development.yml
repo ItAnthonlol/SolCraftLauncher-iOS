@@ -125,11 +125,12 @@ jobs:
         env:
           password: ${{ secrets.ELLIE_MINI_SECRET }}
         run: |
+          brew install gmake
           export PATH=/opt/procursus/bin:/opt/homebrew/bin:$PATH
           export RUNNER=1 SLIMMED=1
           gmake -j$(sysctl -n hw.ncpu) dsym package PLATFORM=${{ matrix.platform }}
           # Additionally build TrollStore (auto JIT) tipa for iOS
-          if [ "${{ matrix.platform_name }}" == "ios" ]; then
+          if [ "${{ matrix.pblatform_name }}" == "ios" ]; then
             gmake -j$(sysctl -n hw.ncpu) dsym package PLATFORM=${{ matrix.platform }} TROLLSTORE_JIT_ENT=1
           fi
 
